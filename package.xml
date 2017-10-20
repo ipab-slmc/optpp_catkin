@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>optpp_catkin</name>
+  <version>2.4.0</version>
+  <description>The OPT++ catkin wrapper package</description>
+
+  <maintainer email="v.ivan@ed.ac.uk">Vladimir Ivan</maintainer>
+
+  <license>LGPL</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+</package>
