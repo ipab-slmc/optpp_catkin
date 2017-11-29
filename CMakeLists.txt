@@ -26,7 +26,7 @@ ExternalProject_Add_Step(optpp CopyToDevel
 )
 
 catkin_package(
-  INCLUDE_DIRS ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME} include/${PROJECT_NAME} ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME}
+  INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include include ${CMAKE_INSTALL_PREFIX}/include
   LIBRARIES opt newmat
   CFG_EXTRAS optpp_extra.cmake
 )
