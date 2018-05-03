@@ -13,8 +13,10 @@ file(MAKE_DIRECTORY include/${PROJECT_NAME})
 file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME})
 
 ExternalProject_Add(optpp
-  URL http://terminator.robots.inf.ed.ac.uk/apt/optpp-2.4.tar.gz
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${OPTPP_INSTALL} --enable-w --enable-static=no --enable-shared=yes
+  # URL http://terminator.robots.inf.ed.ac.uk/apt/optpp-2.4.tar.gz
+  GIT_REPOSITORY "https://github.com/ipab-slmc/optpp.git"
+  GIT_TAG "master"
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${OPTPP_INSTALL} --enable-static=no --enable-shared=yes
   BUILD_COMMAND ${MAKE}
 )
 
