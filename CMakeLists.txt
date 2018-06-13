@@ -16,6 +16,7 @@ ExternalProject_Add(optpp
   # URL http://terminator.robots.inf.ed.ac.uk/apt/optpp-2.4.tar.gz
   GIT_REPOSITORY "https://github.com/ipab-slmc/optpp.git"
   GIT_TAG "master"
+  UPDATE_COMMAND ""
   CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${OPTPP_INSTALL} --enable-static=no --enable-shared=yes
   BUILD_COMMAND ${MAKE}
 )
