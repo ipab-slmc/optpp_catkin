@@ -7,39 +7,40 @@ find_package(catkin REQUIRED)
 
 include(ExternalProject)
 
-set(OPTPP_INSTALL ${CMAKE_BINARY_DIR}/optpp_install)
-file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME})
-file(MAKE_DIRECTORY include/${PROJECT_NAME})
-file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/include/${PROJECT_NAME})
-
 ExternalProject_Add(optpp
-  # URL http://terminator.robots.inf.ed.ac.uk/apt/optpp-2.4.tar.gz
   GIT_REPOSITORY "https://github.com/ipab-slmc/optpp.git"
   GIT_TAG "master"
   UPDATE_COMMAND ""
-  CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${OPTPP_INSTALL} --enable-static=no --enable-shared=yes
-  BUILD_COMMAND ${MAKE}
+  CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${CATKIN_DEVEL_PREFIX} --enable-static=no --enable-shared=yes --disable-warnings --includedir=${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME} 
+  BUILD_COMMAND make
+  INSTALL_COMMAND make install
 )
-
 ExternalProject_Add_Step(optpp CopyToDevel
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${OPTPP_INSTALL}/include/ ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}
-    COMMAND ${CMAKE_COMMAND} -E copy ${OPTPP_INSTALL}/../optpp-prefix/src/optpp-build/include/OPT++_config.h ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${OPTPP_INSTALL}/lib/ ${CATKIN_DEVEL_PREFIX}/lib
-    DEPENDEES install
+  COMMENT "Copying OPT++_config.h to install directory."
+  COMMAND ${CMAKE_COMMAND} -E copy <BINARY_DIR>/include/OPT++_config.h ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}
+  DEPENDEES install
 )
 
-catkin_package(
-  INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include include ${CMAKE_INSTALL_PREFIX}/include
-  LIBRARIES opt newmat
-  CFG_EXTRAS optpp_extra.cmake
-)
+if(DEFINED ${CATKIN_INSTALL_PREFIX})
+  catkin_package(
+    INCLUDE_DIRS include
+    LIBRARIES opt newmat
+    CFG_EXTRAS optpp_extra.cmake
+  )
+else()
+  file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME})
+  catkin_package(
+    INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include
+    LIBRARIES opt newmat
+    CFG_EXTRAS optpp_extra.cmake
+  )
+endif()
 
 install(
-  DIRECTORY ${CATKIN_DEVEL_PREFIX}/include
-  DESTINATION ${CMAKE_INSTALL_PREFIX}
+  DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 install(
-  FILES ${CATKIN_DEVEL_PREFIX}/lib/libopt.so
-  ${CATKIN_DEVEL_PREFIX}/lib/libnewmat.so
+  DIRECTORY ${CATKIN_DEVEL_PREFIX}/lib/
   DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 )
