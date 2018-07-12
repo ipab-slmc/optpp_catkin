@@ -22,12 +22,14 @@ ExternalProject_Add_Step(optpp CopyToDevel
 )
 
 if(DEFINED ${CATKIN_INSTALL_PREFIX})
+  message(WARNING "Compiling for install workspace")  
   catkin_package(
     INCLUDE_DIRS include
     LIBRARIES opt newmat
     CFG_EXTRAS optpp_extra.cmake
   )
 else()
+  message(WARNING "Compiling for devel workspace")
   file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME})
   catkin_package(
     INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include
