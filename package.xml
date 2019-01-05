@@ -4,6 +4,7 @@
   <version>2.4.0</version>
   <description>The OPT++ catkin wrapper package</description>
 
+  <maintainer email="wolfgang.merkt@ed.ac.uk">Wolfgang Merkt</maintainer>
   <maintainer email="v.ivan@ed.ac.uk">Vladimir Ivan</maintainer>
 
   <license>LGPL</license>
